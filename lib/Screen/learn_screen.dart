@@ -5,9 +5,13 @@ class LearnScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
       body: SingleChildScrollView(
-        child: PositionedWidgets(),
+        child: Column(
+          children: const [
+            PositionedWidgets(),
+          ],
+        ),
       ),
     );
   }
@@ -26,36 +30,76 @@ class _PositionedWidgetsState extends State<PositionedWidgets> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: List.generate(
-        numberOfLessons,
-            (index) {
-          const verticalSpacing = 40.0; // Vertical spacing between each card
-          final horizontalDisplacement = (index % 2 == 0) ? -20.0 : 20.0; // Alternating horizontal displacement
+    return Stack(
+      children: [
+        CustomPaint(
+          size: Size(double.infinity, numberOfLessons * 200.0), // Adjust the size of the CustomPaint
+          painter: DashedLinePainter(numberOfLessons),
+        ),
+        Column(
+          children: List.generate(
+            numberOfLessons,
+                (index) {
+              const verticalSpacing = 160.0; // Increased vertical spacing between each card
+              final horizontalDisplacement = (index % 2 == 0) ? -20.0 : 20.0; // Alternating horizontal displacement
 
-          return Padding(
-            padding: const EdgeInsets.only(top: verticalSpacing),
-            child: Align(
-              alignment: const Alignment(0.0, 0.0),
-              child: Transform.translate(
-                offset: Offset(horizontalDisplacement, 0.0),
-                child: GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      selectedLesson = index;
-                    });
-                  },
-                  child: LessonWidget(
-                    lessonNumber: index + 1,
-                    selected: selectedLesson == index,
+              return Padding(
+                padding: EdgeInsets.only(top: verticalSpacing),
+                child: Align(
+                  alignment: Alignment(0.0, 0.0),
+                  child: Transform.translate(
+                    offset: Offset(horizontalDisplacement, 0.0),
+                    child: GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          selectedLesson = index;
+                        });
+                      },
+                      child: LessonWidget(
+                        lessonNumber: index + 1,
+                        selected: selectedLesson == index,
+                      ),
+                    ),
                   ),
                 ),
-              ),
-            ),
-          );
-        },
-      ),
+              );
+            },
+          ),
+        ),
+      ],
     );
+  }
+}
+
+class DashedLinePainter extends CustomPainter {
+  final int numberOfLessons;
+
+  DashedLinePainter(this.numberOfLessons);
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    Paint paint = Paint()
+      ..color = Colors.blue
+      ..strokeWidth = 2;
+
+    double dashWidth = 10;
+    double dashSpace = 5;
+    double startY = 80; // Start from the first card's height
+    double startX = size.width / 2;
+
+    for (int i = 0; i < numberOfLessons; i++) {
+      double cardCenterY = startY + i * 160; // Adjust to start from the first card and space out vertically
+      while (startY < cardCenterY) {
+        canvas.drawLine(Offset(startX, startY), Offset(startX, startY + dashWidth), paint);
+        startY += dashWidth + dashSpace;
+      }
+      startY = cardCenterY + dashSpace; // Move to the next card
+    }
+  }
+
+  @override
+  bool shouldRepaint(CustomPainter oldDelegate) {
+    return false;
   }
 }
 
@@ -68,11 +112,15 @@ class LessonWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 60, // Reduced width for each card
+      width: 60,
       height: 80,
       decoration: BoxDecoration(
         color: selected ? Colors.green : Colors.blue,
         borderRadius: BorderRadius.circular(8),
+        border: Border.all(
+          color: selected ? Colors.red : Colors.transparent, // Change border color when selected
+          width: 3,
+        ),
       ),
       child: Center(
         child: Text(
@@ -87,4 +135,5 @@ class LessonWidget extends StatelessWidget {
     );
   }
 }
+
 
