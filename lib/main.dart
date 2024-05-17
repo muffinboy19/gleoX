@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:gleo_x/Screen/HomePage.dart';
+import 'package:gleo_x/Screen/forgetPassword.dart';
+import 'package:gleo_x/Screen/otpPage.dart';
 
 import 'Screen/LoginPage.dart';
+import 'Screen/Question/questionScreen.dart';
 import 'Screen/SignUpPage.dart';
 import 'Screen/SplashPage.dart';
 import 'Screen/landingPage.dart';
@@ -28,7 +31,12 @@ class MyApp extends StatelessWidget {
         '/landing': (context) => LandingPage(),
         '/login': (context) => const LoginPage(),
         '/signup': (context) => const SignupPage(),
-        '/home': (context) => HomePage(),
+        '/home': (context) => const HomePage(),
+        '/forgot-password': (context) => const ForgotPasswordScreen(),
+        '/otp-verification': (context) => const OTPVerificationScreen(),
+        '/quiz': (context) => const QuizScreen(),
+
+
       },
     );
   }

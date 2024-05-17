@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'home_screen.dart';
+import 'learn_screen.dart';
+import 'profile_screen.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -11,9 +14,9 @@ class _HomePageState extends State<HomePage> {
   int _selectedIndex = 0;
 
   final List<Widget> _pages = [
-    const Center(child: Text('Home Page')),
-    const Center(child: Text('Learn Page')),
-    const Center(child: Text('Profile Page')),
+    const HomeScreen(),
+    const LearnScreen(),
+    const ProfileScreen(),
   ];
 
   void _onItemTapped(int index) {
@@ -49,26 +52,3 @@ class _HomePageState extends State<HomePage> {
     );
   }
 }
-
-// void main() {
-//   runApp(const MyApp());
-// }
-//
-// class MyApp extends StatelessWidget {
-//   const MyApp({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Your App Title',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: const HomePage(),
-      routes: {
-        '/home': (context) => const HomePage(),
-        // Define routes for other pages if necessary
-      },
-    );
-  }
-
