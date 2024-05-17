@@ -13,6 +13,9 @@ void main() {
   runApp(MyApp());
 }
 
+// width: 60, // Width of the card
+// height: 80, // Height of the card
+
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
